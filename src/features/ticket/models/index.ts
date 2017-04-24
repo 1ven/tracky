@@ -1,6 +1,6 @@
 export interface Tickets {
   add(props: TicketInputProps): Promise<Ticket>,
-  iterate(): Promise<Iterable<Ticket>>,
+  iterate(): Promise<Ticket[]>,
 }
 
 export interface Ticket {

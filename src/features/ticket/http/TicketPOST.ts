@@ -14,7 +14,7 @@ export class TicketPOST implements Chunk {
     this.connection = connection;
   }
 
-  public async act(req: Request): Response {
+  public async act(req: Request): Promise<Response> {
     // TODO: improve, implement class in Chunks
     // TODO: handle json parsing erros
     const props = JSON.parse(req.body());
