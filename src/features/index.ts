@@ -1,5 +1,1 @@
-import { TicketFeature } from './ticket';
-
-export {
-  TicketFeature,
-}
+export { TicketFeature } from './ticket';

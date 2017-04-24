@@ -1,23 +1,32 @@
+// Avoid imperative code as much as possible
 import * as express from 'express';
 import * as pgp from 'pg-promise';
 
-import { Features } from './core/Features';
+import {
+  FtBasic,
+  BkBasic,
+  BkSafe,
+  CkFork,
+  CkRegEx,
+} from 'chunks';
+
 import { TicketFeature } from './features';
 
-const app = express();
 const db = pgp()(process.env.DATABASE_URL);
 
-app.get('/', (req, res) => {
-  res.send('Hello!');
-});
+// init features after db was instantiated one by one
 
-app.listen(process.env.port, () => {
-  console.log(`Listening at ${process.env.PORT}`);
-});
+const ticketFt = new TicketFeature(db);
+ticketFt.init();
 
-const features = new Features([
-  new TicketFeature(db),
-]);
-
-features.init();
-
+new FtBasic(
+  new BkSafe(
+    new BkBasic(
+      new CkFork(
+        new CkRegEx('/tickets', ticketFt.chunk()),
+      ),
+    ),
+  ),
+).start(process.env.PORT, () => (
+  console.log(`Listening at ${process.env.PORT}...`)
+));

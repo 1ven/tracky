@@ -1,24 +1,20 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { PgTicketsStorage } from './storage';
+import { TicketChunk } from './http';
 
-class TicketFeature {
+export class TicketFeature {
   private connection: any;
 
   constructor(connection) {
     this.connection = connection;
   }
 
-  private createTable() {
-    const ticketSql = fs.readFileSync(
-      path.resolve(__dirname, 'database/tickets.sql'),
-      'utf-8',
-    );
-    return this.connection.none(ticketSql);
+  public chunk() {
+    return new TicketChunk(this.connection);
   }
 
   public async init() {
-    await this.createTable();
+    return await new PgTicketsStorage(this.connection).init();
   }
 }
-
-export { TicketFeature }

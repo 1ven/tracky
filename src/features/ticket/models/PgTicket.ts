@@ -1,6 +1,6 @@
-import { Ticket, TicketInputProps } from './interfaces';
+import { Ticket, TicketInputProps } from './index';
 
-class PgTicket implements Ticket {
+export class PgTicket implements Ticket {
   private connection: any;
   private id: number;
 
@@ -29,8 +29,4 @@ class PgTicket implements Ticket {
       [this.id, Object.keys(props), props],
     );
   }
-}
-
-export {
-  PgTicket,
 }

@@ -1,6 +1,6 @@
-import { Ticket, TicketProps, TicketInputProps } from '../interfaces';
+import { Ticket, TicketProps, TicketInputProps } from './index';
 
-class CachedPgTicket implements Ticket {
+export class PgTicketCached implements Ticket {
   private origin: Ticket;
   private props: TicketProps;
 
@@ -20,8 +20,4 @@ class CachedPgTicket implements Ticket {
   public update(props: TicketInputProps) {
     return this.origin.update(props);
   }
-}
-
-export {
-  CachedPgTicket,
 }

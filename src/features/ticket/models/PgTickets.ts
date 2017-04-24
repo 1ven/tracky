@@ -1,8 +1,9 @@
-import { Tickets, TicketInputProps, TicketProps } from './interfaces';
+import * as _ from 'lodash';
+import { Tickets, TicketInputProps, TicketProps } from './index';
 import { PgTicket } from './PgTicket';
-import { CachedPgTicket } from './decorators';
+import { PgTicketCached } from './PgTicketCached';
 
-class PgTickets implements Tickets {
+export class PgTickets implements Tickets {
   private connection: any;
 
   constructor(connection) {
@@ -16,9 +17,9 @@ class PgTickets implements Tickets {
     );
 
     return (
-      new CachedPgTicket(
+      new PgTicketCached(
         new PgTicket(this.connection, createdProps.id),
-        createdProps,
+        _.toPlainObject(createdProps),
       )
     );
   }
@@ -30,15 +31,11 @@ class PgTickets implements Tickets {
 
     return propsList.map((props: TicketProps) => {
       return (
-        new CachedPgTicket(
+        new PgTicketCached(
           new PgTicket(this.connection, props.id),
-          props,
+          _.toPlainObject(props),
         )
       );
     });
   }
-}
-
-export {
-  PgTickets,
 }
