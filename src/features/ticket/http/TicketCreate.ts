@@ -1,5 +1,6 @@
 import {
   RsJson,
+  PrJson,
   Chunk,
   Request,
   Response,
@@ -7,7 +8,7 @@ import {
 } from 'chunks';
 import { PgTickets } from '../models/';
 
-export class TicketPOST implements Chunk {
+export class TicketCreate implements Chunk {
   private connection: any;
 
   constructor(connection) {
@@ -15,13 +16,10 @@ export class TicketPOST implements Chunk {
   }
 
   public async act(req: Request): Promise<Response> {
-    // TODO: improve, implement class in Chunks
-    // TODO: handle json parsing erros
-    const props = JSON.parse(req.body());
-    //
+    const props = new PrJson(req).content();
     // TODO: implement generic validation class
     if (!props.title) {
-      throw new HttpError(400);
+      throw new HttpError(400, '`title` is required');
     }
     //
     const tickets = new PgTickets(this.connection);

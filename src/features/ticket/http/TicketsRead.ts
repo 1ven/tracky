@@ -7,7 +7,7 @@ import {
 } from 'chunks';
 import { Ticket, PgTickets } from '../models/';
 
-export class TicketsGET implements Chunk {
+export class TicketsRead implements Chunk {
   private connection: any;
 
   constructor(connection) {
