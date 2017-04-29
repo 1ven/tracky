@@ -5,18 +5,17 @@ import {
   Request,
   Response,
 } from 'chunks';
-import { Ticket, PgTickets } from '../models/';
+import { Ticket, PgTickets } from '../models';
 
-export class TicketsRead implements Chunk {
-  private connection: any;
+export class ReadAll implements Chunk {
+  private cn: any;
 
-  constructor(connection) {
-    this.connection = connection;
+  constructor(cn) {
+    this.cn = cn;
   }
 
   public async act(req: Request): Promise<Response> {
-    // TODO: Provide tickets variable from constructor?
-    const tickets = new PgTickets(this.connection);
+    const tickets = new PgTickets(this.cn);
 
     return new RsJson(
       await Bluebird.map(

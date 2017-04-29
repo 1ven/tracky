@@ -1,29 +1,22 @@
-// Avoid imperative code as much as possible
-import * as express from 'express';
-import * as pgp from 'pg-promise';
-
 import {
   FtBasic,
   BkBasic,
   BkSafe,
   CkFork,
-  CkRegEx,
 } from 'chunks';
+import { PgStorage } from './modules/storage';
+import { TicketsFeature } from './features';
 
-import { TicketFeature } from './features';
+const db = new PgStorage().init();
+const ticketsFt = new TicketsFeature(db);
 
-const db = pgp()(process.env.DATABASE_URL);
-
-// init features after db was instantiated one by one
-
-const ticketFt = new TicketFeature(db);
-ticketFt.init();
+ticketsFt.init();
 
 new FtBasic(
   new BkSafe(
     new BkBasic(
       new CkFork(
-        new CkRegEx('/tickets', ticketFt.chunk()),
+        ticketsFt.chunk(),
       ),
     ),
   ),

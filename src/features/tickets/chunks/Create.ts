@@ -8,11 +8,11 @@ import {
 } from 'chunks';
 import { PgTickets } from '../models/';
 
-export class TicketCreate implements Chunk {
-  private connection: any;
+export class Create implements Chunk {
+  private cn: any;
 
-  constructor(connection) {
-    this.connection = connection;
+  constructor(cn) {
+    this.cn = cn;
   }
 
   public async act(req: Request): Promise<Response> {
@@ -22,7 +22,7 @@ export class TicketCreate implements Chunk {
       throw new HttpError(400, '`title` is required');
     }
     //
-    const tickets = new PgTickets(this.connection);
+    const tickets = new PgTickets(this.cn);
     const ticket = await tickets.add(props);
 
     return new RsJson(
