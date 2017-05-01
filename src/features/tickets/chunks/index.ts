@@ -18,7 +18,7 @@ export class RootChunk implements Chunk {
   }
 
   public act(req: Request): Response {
-    return new CkRegEx('/tickets', new CkFork(
+    return new CkRegEx(/^\/tickets$/, new CkFork(
       new CkMethods('POST', new Create(this.cn)),
       new CkMethods('GET', new ReadAll(this.cn)),
     )).act(req);
