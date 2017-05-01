@@ -7,6 +7,7 @@ import {
   HttpError,
 } from 'chunks';
 import { PgTickets } from '../models/';
+import { GenericResponse } from '../../../modules/response';
 
 export class Create implements Chunk {
   private cn: any;
@@ -25,7 +26,7 @@ export class Create implements Chunk {
     const tickets = new PgTickets(this.cn);
     const ticket = await tickets.add(props);
 
-    return new RsJson(
+    return new GenericResponse(
       await ticket.read()
     );
   }
