@@ -3,6 +3,7 @@ import {
   BkBasic,
   BkSafe,
   CkFork,
+  CkRoute,
 } from 'chunks';
 import { PgStorage } from './modules/storage';
 import { TicketsFeature } from './features';
@@ -16,7 +17,9 @@ new FtBasic(
   new BkSafe(
     new BkBasic(
       new CkFork(
-        ticketsFt.chunk(),
+        new CkRoute('/entities*', new CkFork(
+          new CkRoute('/tickets*', ticketsFt.chunk()),
+        )),
       ),
     ),
   ),

@@ -1,5 +1,6 @@
 import { Ticket, TicketProps, TicketInputProps } from './index';
 
+// Rename to CachedTicket
 export class PgTicketCached implements Ticket {
   private origin: Ticket;
   private props: TicketProps;
@@ -17,7 +18,7 @@ export class PgTicketCached implements Ticket {
     return this.origin.remove();
   }
 
-  public update(props: TicketInputProps) {
-    return this.origin.update(props);
+  public rename(title: string) {
+    return this.origin.rename(title);
   }
 }

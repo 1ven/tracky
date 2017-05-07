@@ -6,7 +6,7 @@ export interface Tickets {
 export interface Ticket {
   read(): Promise<TicketProps>,
   remove(): Promise<void>,
-  update(props: TicketInputProps): Promise<TicketProps>,
+  rename(title: string): Promise<TicketProps>,
 }
 
 export type TicketInputProps = {

@@ -1,9 +1,5 @@
 export class PgTicketsStorage {
-  private cn: any;
-
-  constructor(cn) {
-    this.cn = cn;
-  }
+  constructor(private cn) {}
 
   public init() {
     return this.cn.none(
