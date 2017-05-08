@@ -17,8 +17,10 @@ new FtBasic(
   new BkSafe(
     new BkBasic(
       new CkFork(
-        new CkRoute('/entities*', new CkFork(
-          new CkRoute('/tickets*', ticketsFt.chunk()),
+        new CkRoute('/v1*', new CkFork(
+          new CkRoute('/entities*', new CkFork(
+            new CkRoute('/tickets*', ticketsFt.chunk()),
+          )),
         )),
       ),
     ),
