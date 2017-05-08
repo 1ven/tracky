@@ -10,6 +10,7 @@ import {
 import { Create } from './Create';
 import { Rename } from './Rename';
 import { ReadAll } from './ReadAll';
+import { CkAction } from '../../../modules/chunk';
 
 export class RootChunk implements Chunk {
   constructor(private cn) {}
@@ -20,8 +21,10 @@ export class RootChunk implements Chunk {
         new CkMethods('POST', new Create(this.cn)),
         new CkMethods('GET', new ReadAll(this.cn)),
       )),
-      new CkRoute('/:id', new CkFork(
-        new CkMethods('PUT', new Rename(this.cn)),
+      new CkRoute('/:id*', new CkFork(
+        new CkMethods('PUT', new CkFork(
+          new CkAction('rename', new Rename(this.cn)),
+        )),
       )),
     ).act(req);
   }
