@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "eval $(cat .env.develop) nodemon",
-    "pg": "postgres -D /usr/local/var/postgres -p 5433"
+    "pg": "postgres -D /usr/local/var/postgres -p 5432"
   },
   "repository": {
     "type": "git",
@@ -18,8 +18,14 @@
     "url": "https://github.com/1ven/tracky-backend/issues"
   },
   "homepage": "https://github.com/1ven/tracky-backend#readme",
-  "dependencies": {},
+  "dependencies": {
+    "pg-promise": "^6.4.0",
+    "ramda": "^0.24.1"
+  },
   "devDependencies": {
+    "@types/node": "^8.0.23",
+    "@types/pg-promise": "^5.4.3",
+    "@types/ramda": "^0.24.7",
     "nodemon": "^1.11.0",
     "ts-node": "^3.3.0",
     "tsconfig-paths": "^2.2.0",
