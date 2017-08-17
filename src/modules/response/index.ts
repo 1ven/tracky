@@ -1,2 +1,0 @@
-export { GenericResponse } from './GenericResponse';
-
