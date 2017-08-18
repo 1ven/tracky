@@ -12,7 +12,6 @@ export const cors = chunk => async req =>
   req.method === "OPTIONS"
     ? withHeaders({
         "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": "true",
         "Access-Control-Allow-Headers": "Content-type,Accept",
         "Access-Control-Allow-Methods": "GET,PUT,PATCH,POST,DELETE,OPTIONS"
       })(empty())
