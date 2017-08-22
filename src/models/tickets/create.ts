@@ -9,8 +9,8 @@ import { Fields, allowedFields } from './';
  * @param db database connection
  */
 export default compose(allowedFields)((props: Fields, db) =>
-  db.one("INSERT INTO tickets ($1^) VALUES ($2:csv) RETURNING *", [
-    keys(props).map(pgp.as.name).join(),
+  db.one("INSERT INTO tickets ($1:name) VALUES ($2:csv) RETURNING *", [
+    props,
     values(props)
   ])
 );
