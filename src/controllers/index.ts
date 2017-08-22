@@ -5,5 +5,5 @@ import bulk from './bulk';
 
 export default ({ db }) => fork(
   route('/entities*', entities({ db })),
-  methods('POST', route('/bulk*', bulk({ db })))
+  route('/bulk*', methods('POST', bulk({ db })))
 )
