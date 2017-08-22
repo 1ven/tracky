@@ -1,0 +1,125 @@
+tickets_permissions
+user_id|ticket_id|permission
+2      |5        |read,delete
+
+# Get all tickets for a specific user with id = 2
+"SELECT * FROM tickets as t JOIN tickets_permissions as acl
+  WHERE t.id = acl.ticket_id and acl.user_id = 2 and acl.permission = 'read'"
+
+# Update a ticket
+"SELECT * FROM tickets_permissions WHERE user_id = 2 and ticket_id = 5 and permission = update
+
+# Create a ticket
+"INSERT INTO tickets ..., INSERT INTO tickets_permissions VALUES 2, 6, "read,write,delete"
+
+1. Where roles are here? user_id?
+2. Find example of acl implementation with SQL
+3. How to manage roles groups
+
+
+# correct table "tickets_permissions"
+ticket_id|role  |permission
+5        |user.5|read,delete
+
+# Roles hierarchy
+        root
+    /          \
+moderator    moderator2
+    |            |
+ customer     customer2
+    |            |
+  guest        guest
+
+
+# users table
+name|role_id
+John|0
+Jack|1
+Mike|2
+Nick|2
+
+# roles table
+id|name|parent
+0 |root|
+1 |moderator|0
+2 |user|1
+
+# tickets_permissions table
+ticket_id|role_id|permission
+5        |2      |read,delete
+
+
+# Requirements
+1. Be able to define specific access for a specific group. For example to deny
+an access for a parent role, while child role will have an access for the same
+resourse.
+2. Be able to define a "moderator" role
+3. How to deny to moderate a specific user for a moderator?
+4. Be able to set rules for a group of roles, ex users
+
+# TODO
+1. Check admin api code
+2. Try to implement "Requirements" flow in some acl lib
+3. Use sticky bits for permissions?
+4. Use unix permissions by default and ACL for something more granular on top of
+ unix permissions?
+
+__________________________________________________
+
+groups: root => moderator => customer => guest
+
+* customers (Read: news) role_id = 2
+  * John (Read, Write: tickets-1) role_id = 3
+  * Jack (Read, Write: tickets-4) role_id = 4
+  * Tim (Read, Write: tickets-7) role_id = 5
+  * Steve (Read, Write: tickets-9) role_id = 6
+
+* moderators extends "customers" role_id = 7
+  * Sam role_id = 8
+
+"roles" table, DEPRECATED
+id | parent | includes | name      | excludes
+ 2 |        |          | customer  |
+ 3 | 2      |          |           |
+ 4 | 2      |          |           |
+ 7 |        | 2        | moderator |
+ 8 | 7      |          |           | 4
+
+"roles" table, DEPRECATED
+id | includes   | name      | excludes
+ 2 | 3, 4, 5, 6 | customer  |
+ 3 |            |           |
+ 4 |            |           |
+ 7 | 2          | moderator |
+ 8 | 7          |           | 4
+
+"roles" table
+id | inherits | name
+ 2 |          | customer
+ 7 | customer | moderator
+
+"tickets_permissions" table, whitelist
+ticket_id | role_id | permission
+        1 |       3 | read,write || 3
+        4 |       4 | read,write
+        7 |       5 | read,write
+        9 |       6 | read,write
+
+"tickets_owners"
+ticket_id | user_id
+        4 |       1
+        4 |       2
+
+optional. "tickets_restrictions" table, blacklist
+ticket_id | role_id | restriction
+        9 |       7 |           9
+
+# Sticky bits
+1 - Read
+2 - Write
+4 - Delete
+
+3 - Read & Write
+5 - Read & Delete
+6 - Write & Delete
+7 - Read & Write & Delete
