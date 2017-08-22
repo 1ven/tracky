@@ -31,3 +31,5 @@ export const update = compose(
     values(props)
   ])
 );
+
+// export const complete = (resolution, ...rest) => update({ resolution }, ...rest)
