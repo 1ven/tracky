@@ -1,4 +1,3 @@
-import * as pgp from "pg-promise";
 import { compose, keys, values } from "ramda";
 import { Fields, allowedFields } from './';
 
