@@ -1,12 +1,11 @@
-import * as fs from "fs";
-import * as path from "path";
-import { render } from 'ejs';
+const { INDEX_PATH, PORT } = process.env;
+
 import { compose } from "ramda";
-import { start, safe, route, html } from "chunks";
-import { index } from 'tracky-static';
+import { start, safe, route, html, when } from "chunks";
 import { fork, cors } from "./core/chunks";
+import { readSync } from "./core/fs";
 import initDatabase from "./core/database";
-import initModels from "./models";
+import models from "./models";
 import controllers from "./controllers";
 
 const db = initDatabase();
@@ -15,8 +14,8 @@ export const app = ({ db }) =>
   compose(safe, cors)(
     fork(
       route("/v1*", controllers({ db })),
-      route("/", async () => html(render(index)))
+      when(!!INDEX_PATH, route("/", async () => html(readSync(INDEX_PATH))))
     )
   );
 
-initModels(db).then(() => start(app({ db }), parseInt(process.env.PORT)));
+models(db).then(() => start(app({ db }), parseInt(PORT)));
