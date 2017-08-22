@@ -10,7 +10,7 @@ import { Fields, allowedFields } from './';
  */
 export default compose(allowedFields)((props: Fields, db) =>
   db.one("INSERT INTO tickets ($1:name) VALUES ($2:csv) RETURNING *", [
-    props,
+    keys(props),
     values(props)
   ])
 );
