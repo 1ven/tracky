@@ -1,11 +1,7 @@
 import * as pgp from "pg-promise";
 import { keys, values } from "ramda";
+import { Ticket } from 'tracky-types';
 import { Partial } from "core/types";
-
-export type Ticket = {
-  id: number;
-  title: string;
-};
 
 export const readAll = db => db.query("SELECT * FROM tickets");
 
