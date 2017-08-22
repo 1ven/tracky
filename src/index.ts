@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { render } from 'mustache';
+import { render } from 'ejs';
 import { compose } from "ramda";
 import { start, safe, route, html } from "chunks";
 import { index } from 'tracky-static';
