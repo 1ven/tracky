@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/1ven/tracky-backend#readme",
   "dependencies": {
-    "ejs": "^2.5.7",
     "pg-promise": "^6.4.0",
     "ramda": "^0.24.1"
   },
