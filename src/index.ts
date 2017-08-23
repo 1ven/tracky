@@ -1,7 +1,7 @@
-const { INDEX_PATH, PORT } = process.env;
+const { PORT } = process.env;
 
 import { compose } from "ramda";
-import { start, safe, route, html, when } from "chunks";
+import { start, safe, route } from "chunks";
 import { fork, cors } from "./core/chunks";
 import { readSync } from "./core/fs";
 import initDatabase from "./core/database";
@@ -10,11 +10,11 @@ import controllers from "./controllers";
 
 const db = initDatabase();
 
+// prettier-ignore
 export const app = ({ db }) =>
   compose(safe, cors)(
     fork(
       route("/v1*", controllers({ db })),
-      when(!!INDEX_PATH, route("/", async () => html(readSync(INDEX_PATH))))
     )
   );
 
