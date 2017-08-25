@@ -1,4 +1,5 @@
 import { json, RouteRequest } from "chunks";
+import * as model from "models/projects/tickets";
 
-export default ({ db }) => async (req: RouteRequest) =>
-  json({message: `Create ticket for a ${req.params.id} id project`})
+export default ({ db }) => (req: RouteRequest) =>
+  model.create(parseInt(req.params.id), req.body, db).then(json);
