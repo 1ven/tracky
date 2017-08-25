@@ -6,7 +6,6 @@ export type Fields = Pick<Ticket, "title" | "description">;
 export const allowedFields = mapInput(pick(["title", "description"]));
 
 export { default as readAll } from './readAll';
-export { default as create } from './create';
 export { default as read } from './read';
 export { default as remove } from './remove';
 export { default as update } from './update';
