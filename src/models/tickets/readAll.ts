@@ -3,4 +3,4 @@
  * 
  * @param db database connection
  */
-export default db => db.many("SELECT * FROM tickets");
+export default db => db.manyOrNone("SELECT * FROM tickets");
