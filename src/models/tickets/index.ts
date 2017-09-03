@@ -2,14 +2,16 @@ import { pick } from "ramda";
 import { Ticket } from "tracky-types";
 import { mapInput } from "core/decorators";
 
-export type Fields = Pick<Ticket, "title" | "description">;
-export const allowedFields = mapInput(pick(["title", "description"]));
+const debug = (fn) => (...args) => {
+  console.log(args)
+  return fn(...args);
+}
 
-export { default as readAll } from './readAll';
-export { default as create } from './create';
-export { default as read } from './read';
-export { default as remove } from './remove';
-export { default as update } from './update';
+export type InputProps = Pick<Ticket, 'title' | 'description'>
+export type OutputProps = Pick<Ticket, 'id' | 'title' | 'description'>
+
+export const inputFields = ["title", "description"];
+export const outputFields = ["id", "title", "description"];
 
 export default (db) => db.none(
   'CREATE TABLE IF NOT EXISTS tickets(' +

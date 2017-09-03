@@ -1,6 +1,6 @@
-import * as model from 'models/tickets';
-import { deleted } from 'core/response';
 import { json, RouteRequest } from "chunks";
+import { deleted } from 'core/response';
+import remove from 'models/tickets/remove';
 
 export default ({ db }) => (req: RouteRequest) =>
-  model.remove(parseInt(req.params.id), db).then(deleted);
+  remove(parseInt(req.params.id), db).then(deleted);

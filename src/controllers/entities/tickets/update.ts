@@ -1,5 +1,5 @@
-import * as model from 'models/tickets';
 import { json, RouteRequest } from "chunks";
+import update from 'models/tickets/update';
 
 export default ({ db }) => (req: RouteRequest) =>
-  model.update(req.body, parseInt(req.params.id), db).then(json);
+  update(req.body, parseInt(req.params.id), db).then(json);

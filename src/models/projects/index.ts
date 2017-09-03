@@ -1,16 +1,8 @@
-import tickets from './tickets';
+export const outputFields = ['id', 'name'];
 
-export { default as readAll } from './readAll';
-export { default as create } from './create';
-
-const projects = (db) => db.none(
+export default (db) => db.none(
   'CREATE TABLE IF NOT EXISTS projects(' +
     'id serial PRIMARY KEY,' +
     'name text UNIQUE NOT NULL' +
   ');'
 );
-
-export default (db) => Promise.all([
-  tickets(db),
-  projects(db)
-])

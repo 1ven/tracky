@@ -1,22 +1,30 @@
-import { compose, keys, values } from "ramda";
-import { Ticket } from "tracky-types";
-import { Fields, allowedFields } from './';
+import { compose, keys, values, pick, prop } from "ramda";
+import { mapInput, sequenceInput } from 'core/models';
+import { Ticket, Project } from "tracky-types";
+import { InputProps, inputFields } from './';
+import read from './read';
 
-/**
- * Updates a single ticket
- * 
- * @param props fields of a ticket
- * @param id ticket id
- * @param db database connection
- */
-export default compose(
-  allowedFields
-)((props: Fields, id: Ticket["id"], db) =>
-  db.one("UPDATE tickets SET ($2:name) = ($3:csv) WHERE id = $1 RETURNING *", [
+const updateData = (props: InputProps, id: Ticket["id"], db) =>
+  db.none("UPDATE tickets SET ($2:name) = ($3:csv) WHERE id = $1", [
     id,
     keys(props),
     values(props)
   ])
-);
 
-// export const complete = (resolution, ...rest) => update({ resolution }, ...rest)
+const updateProject = (projectId: Project["id"], id: Ticket["id"], db) =>
+  db.none(
+    `UPDATE projects_tickets SET project_id = $2 WHERE ticket_id = $1`,
+    [id, projectId]
+  )
+
+/**
+ * Updates a single ticket
+ * 
+ * @param props ticket props
+ * @param id ticket id
+ * @param db database connection
+ */
+export default sequenceInput(
+  mapInput(pick(inputFields))(updateData),
+  mapInput(prop('project'))(updateProject)
+)(async (_, id: Ticket["id"], db) => await read(id, db))

@@ -1,4 +1,5 @@
-import { Project } from 'tracky-types';
+import { Project } from "tracky-types";
+import { outputFields } from "./";
 
 /**
  * 
@@ -6,4 +7,7 @@ import { Project } from 'tracky-types';
  * @param db database connection
  */
 export default (name: Project["name"], db) =>
-  db.one("INSERT INTO projects (name) VALUES ($1) RETURNING *", [name])
+  db.one("INSERT INTO projects (name) VALUES ($1) RETURNING $2:name", [
+    name,
+    outputFields
+  ]);

@@ -1,5 +1,5 @@
 import { json, RouteRequest } from "chunks";
-import * as model from 'models/projects/tickets';
+import readAll from 'models/projects/tickets/readAll';
 
 export default ({ db }) => (req: RouteRequest) =>
-  model.readAll(parseInt(req.params.id), db).then(json);
+  readAll(parseInt(req.params.id), db).then(json);

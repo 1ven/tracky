@@ -1,5 +1,5 @@
 import { json, RouteRequest } from "chunks";
-import * as model from "models/projects";
+import create from "models/projects/create";
 
 export default ({ db }) => (req: RouteRequest) =>
-  model.create(req.body.name, db).then(json);
+  create(req.body.name, db).then(json);
