@@ -13,6 +13,6 @@ export default ({ db }) =>
       methods("POST", create({ db })),
     )),
     route("/:id*", fork(
-      route('/tickets', tickets({ db }))
+      route('/tickets*', tickets({ db }))
     ))
   )
